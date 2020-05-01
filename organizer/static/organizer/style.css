@@ -1,4 +1,9 @@
-#special {
+body {
+    color: #2d7f8b;
+    background-color: #dbe79e;
+}
+
+#login {
     margin: 0;
     text-align: center;
     position: absolute;
@@ -6,4 +11,15 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+
+
+#user_panel {
+    width: 18rem;
+    margin: 0;
+    text-align: center;
+    position: fixed;
+    top: 2%;
+    right: 2%
 }

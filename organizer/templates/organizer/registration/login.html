@@ -4,7 +4,7 @@
 {% block title %}Log in{% endblock %}
 
 {% block content %}
-<div id="special">
+<div id="login">
     <form method="post" novalidate>
             {% csrf_token %}
             {{ form|crispy}}

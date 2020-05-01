@@ -2,7 +2,12 @@
 {% load static %}
 {% block title %}Home{% endblock %}
 {% block content %}
+    <div id="user_panel" style="position: fixed; width: 18rem;" class="card">
+        <div class="card-body">
+            <h5 class="card-title">Hello {{ user.first_name }}</h5>
+                <a href="/" class="btn btn-primary">Homepage</a>
 
-    <h1>Hello {{ user.first_name }}!</h1>
-    <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
 {% endblock %}

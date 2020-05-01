@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'organizer/style.css' %}"/>
+
+
+    <title>{% block title %}fridgev2{% endblock %}</title>
+</head>
+<body>
+    <main>
+        {% if user.is_authenticated or request.path == '/accounts/login/'%}
+            {% block content %}
+            {% endblock %}
+        {% else %}
+            You don't have access to this page please <a href={% url 'login' %}>Log in</a>
+        {% endif %}
+
+    </main>
+</body>
+</html>

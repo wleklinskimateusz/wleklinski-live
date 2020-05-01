@@ -4,6 +4,8 @@
 
 ## VIRTUAL ENV
 myenv
+venv
+.idea
 
 ### Django ###
 *.log

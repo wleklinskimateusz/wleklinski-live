@@ -25,6 +25,8 @@ media
 # Byte-compiled / optimized / DLL files
 *.py[cod]
 *$py.class
+staticfiles
+components
 
 # C extensions
 *.so

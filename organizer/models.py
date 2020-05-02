@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Task(models.Model):
     title = models.CharField(max_length=20)
     description = models.CharField(max_length=100, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=User.objects.last())
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     due = models.DateField(null=True)
     is_done = models.BooleanField(default=False)
 

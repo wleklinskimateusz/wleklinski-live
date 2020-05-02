@@ -1,6 +1,6 @@
 from .models import Task
 import django.forms as forms
-from django.contrib.admin.widgets import AdminDateWidget
+
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -9,8 +9,8 @@ class DateInput(forms.DateInput):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        exclude = ['is_done']
+        exclude = ['is_done', 'owner']
         widgets = {
             'due': DateInput(),
-            'owner': forms.HiddenInput()
         }
+

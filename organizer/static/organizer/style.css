@@ -21,5 +21,23 @@ body {
     text-align: center;
     position: fixed;
     top: 2%;
-    right: 2%
+    right: 2%;
+    border-radius: 15px;
+}
+
+.menu {
+    width: 67%;
+    position: fixed;
+    top: 15%;
+    left: 3%;
+    border-radius: 20px;
+    background-color: white;
+}
+
+#card {
+    position:absolute;
+    width: 60%;
+    top: 30%;
+    left: 6%;
+    border-radius: 15px;
 }

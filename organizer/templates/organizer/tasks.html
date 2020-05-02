@@ -3,14 +3,6 @@
 {% load static %}
 {% block title %}Tasks{% endblock %}
 {% block content %}
-    <div id="user_panel" class="card">
-        <div class="card-body">
-            <h5 class="card-title">Hello {{ user.first_name }}</h5>
-                <a href="/" class="btn btn-primary">Homepage</a>
-
-            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
-        </div>
-    </div>
     <nav class="nav nav-pills nav-fill menu">
       <a class="nav-item nav-link" href="{% url 'organizer:home' %}">Home</a>
       <a class="nav-item nav-link active" href="{% url 'organizer:tasks' %}">Tasks&Homework</a>
@@ -26,7 +18,7 @@
 
     <ul class="list-group tasks">
         {% for task in tasks %}
-        <li class="list-group-item">{{ task.title }}</li>
+            <li class="list-group-item">{{ task.title }}, {% if task.is_past_due %}<mark>DUE: {{ task.due }}</mark>{% else %}DUE: {{ task.due }}{% endif %}</li>
         {% endfor %}
     </ul>
 

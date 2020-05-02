@@ -58,3 +58,7 @@ body {
     left: 15%;
     top: 40%;
 }
+mark {
+    background-color: white;
+    color: #9e0505;
+}

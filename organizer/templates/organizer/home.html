@@ -2,14 +2,7 @@
 {% load static %}
 {% block title %}Home{% endblock %}
 {% block content %}
-    <div id="user_panel" style="position: fixed; width: 18rem;" class="card">
-        <div class="card-body">
-            <h5 class="card-title">Hello {{ user.first_name }}</h5>
-                <a href="/" class="btn btn-primary">Homepage</a>
 
-            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
-        </div>
-    </div>
     <nav class="nav nav-pills nav-fill menu">
       <a class="nav-item nav-link active" href="{% url 'organizer:home' %}">Home</a>
       <a class="nav-item nav-link" href="{% url 'organizer:tasks' %}">Tasks&Homework</a>

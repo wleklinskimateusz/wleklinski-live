@@ -6,13 +6,29 @@ from .models import Task
 # Create your views here.
 
 
+def get_tasks_to_context(context, request):
+
+    tasks_todo = Task.objects.filter(owner=request.user, is_done=False)
+    past_due = 0
+    for task in tasks_todo:
+        if task.is_past_due():
+            past_due += 1
+    context['tasks_to_do'] = len(tasks_todo)
+    context['past_due'] = past_due
+    return context
+
+
 def home(request):
     template_name = 'home.html'
-    return render(request, template_name, {})
+
+    context = get_tasks_to_context({}, request)
+
+    return render(request, template_name, context)
 
 
 def tasks(request):
     template_name = 'tasks.html'
+
     if request.method == 'POST':
         form = TaskForm(request.POST)
         form.initial['owner'] = request.user
@@ -27,13 +43,16 @@ def tasks(request):
             return HttpResponseRedirect('/tasks')
     else:
         form = TaskForm()
-
-    return render(request, template_name, {
+    context = {
         'form': form,
         'tasks': Task.objects.filter(owner=request.user),
-    })
+    }
+    context = get_tasks_to_context(context, request)
+
+    return render(request, template_name, context)
 
 
 def planner(request):
     template_name = 'planner.html'
-    return render(request, template_name, {})
+    context = get_tasks_to_context({}, request)
+    return render(request, template_name, context)

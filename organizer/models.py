@@ -22,4 +22,7 @@ class Task(models.Model):
         today = timezone.now().date()
         return today > self.due
 
+    def days_left(self):
+        today = timezone.now().date()
+        return today - self.due
 #

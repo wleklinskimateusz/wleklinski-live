@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 from django.http import HttpResponseRedirect
 from .forms import TaskForm
@@ -19,6 +19,9 @@ def get_tasks_to_context(context, request):
 
 
 def home(request):
+    if not request.user.is_authenticated:
+        return redirect('accounts/login')
+
     template_name = 'home.html'
 
     context = get_tasks_to_context({}, request)

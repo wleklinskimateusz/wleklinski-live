@@ -38,6 +38,8 @@ def home(request):
 
 
 def tasks(request):
+    if not request.user.is_authenticated:
+        return redirect('accounts/login')
     template_name = 'tasks.html'
 
     if request.method == 'POST':
@@ -64,6 +66,10 @@ def tasks(request):
 
 
 def go_game(request):
+
+    if not request.user.is_authenticated:
+        return redirect('accounts/login')
+
     template_name = 'gamesGO.html'
     context = {
         'games': GoGame.objects.all()
@@ -74,6 +80,10 @@ def go_game(request):
 
 
 def new_player(request):
+
+    if not request.user.is_authenticated:
+        return redirect('accounts/login')
+
     template_name = 'forms/new_player.html'
     if request.method == 'POST':
         form = GoPlayerForm(request.POST)
@@ -94,6 +104,10 @@ def new_player(request):
 
 
 def new_game(request):
+
+    if not request.user.is_authenticated:
+        return redirect('accounts/login')
+
     template_name = 'forms/new_game.html'
     if request.method == 'POST':
         form = GoGameForm(request.POST)

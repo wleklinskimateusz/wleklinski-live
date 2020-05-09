@@ -105,6 +105,6 @@ class GoGame(models.Model):
         white.add_stats(self.white_score, self.white == self.winner(), self.is_draw())
         white.save()
 
-        black = GoPlayer.objects.get(id=self.white.id)
+        black = GoPlayer.objects.get(id=self.black.id)
         black.add_stats(self.white_score, self.white == self.winner(), self.is_draw())
         black.save()

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Tasks{% endblock %}
+{% block title %}Game of GO{% endblock %}
 {% block content %}
    {% if not player %}
     <a href="{% url 'organizer:new_player' %}" class="btn btn-primary btn-lg active gobutton" role="button" aria-pressed="true">Create a Player</a>

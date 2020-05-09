@@ -18,13 +18,21 @@ def get_tasks_to_context(context, request):
     return context
 
 
+def get_player_to_context(context, request):
+    player = None
+    if GoPlayer.objects.filter(owner=request.user):
+        player = GoPlayer.objects.get(owner=request.user)
+    context['player'] = player
+    return context
+
+
 def home(request):
     if not request.user.is_authenticated:
         return redirect('accounts/login')
 
     template_name = 'home.html'
 
-    context = get_tasks_to_context({}, request)
+    context = get_player_to_context({}, request)
 
     return render(request, template_name, context)
 
@@ -48,9 +56,9 @@ def tasks(request):
         form = TaskForm()
     context = {
         'form': form,
-        'tasks': Task.objects.filter(owner=request.user),
+        'tasks': Task.objects.filter(owner=request.user)
     }
-    context = get_tasks_to_context(context, request)
+    context = get_player_to_context(context, request)
 
     return render(request, template_name, context)
 
@@ -58,10 +66,10 @@ def tasks(request):
 def go_game(request):
     template_name = 'gamesGO.html'
     context = {
-        'player': GoPlayer.objects.filter(owner=request.user.id),
         'games': GoGame.objects.all()
     }
-    context = get_tasks_to_context(context, request)
+    context = get_player_to_context(context, request)
+
     return render(request, template_name, context)
 
 
@@ -80,7 +88,7 @@ def new_player(request):
     context = {
         'form': form,
     }
-    context = get_tasks_to_context(context, request)
+    context = get_player_to_context(context, request)
 
     return render(request, template_name, context)
 
@@ -95,15 +103,16 @@ def new_game(request):
             game.black = form.cleaned_data['black']
             game.black_score = form.cleaned_data['black_score']
             game.white_score = form.cleaned_data['white_score']
-            game.sum_up()
             game.save()
+            game.sum_up()
 
             return HttpResponseRedirect('/go')
     else:
         form = GoGameForm()
     context = {
         'form': form,
+
     }
-    context = get_tasks_to_context(context, request)
+    context = get_player_to_context(context, request)
 
     return render(request, template_name, context)

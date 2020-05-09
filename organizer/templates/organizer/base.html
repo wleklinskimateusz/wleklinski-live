@@ -30,13 +30,12 @@
                         {% if user.is_staff %}
                             <a href="/admin" class="btn btn-warning">AdminPage</a>
                         {% endif %}
-                        {% if tasks_to_do != 0 %}
-                            <h6>Tasks to do: {{ tasks_to_do }}</h6>
-                            {% if past_due != 0 %}
-                                <h6>{{ past_due }} of them is past due</h6>
-                            {% endif %}
-                        {% else %}
-                            <h6>You have no tasks left to do</h6>
+                        {% if player %}
+                            <h4>Game of GO</h4>
+                                <p>Nick: {{ player.nick }}</p>
+                                <p>Total score: {{ player.total_score }}</p>
+                                <p>Wins: {{ player.wins }}</p>
+                                <p>Losses: {{ player.losses }}</p>
                         {% endif %}
                     </div>
                 </div>

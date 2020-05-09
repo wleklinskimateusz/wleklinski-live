@@ -47,6 +47,17 @@ class GoPlayer(models.Model):
         self.losses = 0
         self.draws = 0
 
+    def add_stats(self, points, win, draw):
+        self.total_score += points
+        if win:
+            if draw:
+                self.draws += 1
+            else:
+                self.wins += 1
+        else:
+            self.losses += 1
+
+
 
 class GoGame(models.Model):
     """
@@ -90,14 +101,10 @@ class GoGame(models.Model):
             return False
 
     def sum_up(self):
-        self.black.total_score += self.black_score
-        self.white.total_score += self.white_score
-        if self.winner():
-            self.winner().wins += 1
-        if self.loser():
-            self.loser().losses += 1
-        if self.is_draw():
-            self.white.draws += 1
-            self.black.draws += 1
+        white = GoPlayer.objects.get(id=self.white.id)
+        white.add_stats(self.white_score, self.white == self.winner(), self.is_draw())
+        white.save()
 
-
+        black = GoPlayer.objects.get(id=self.white.id)
+        black.add_stats(self.white_score, self.white == self.winner(), self.is_draw())
+        black.save()

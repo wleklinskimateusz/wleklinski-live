@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'organizer/style.css' %}"/>
 
 
-    <title>{% block title %}fridgev2{% endblock %}</title>
+    <title>{% block title %}My Page{% endblock %}</title>
 </head>
 <body>
     <main>
@@ -36,6 +36,11 @@
                     </div>
                 </div>
             {% endif %}
+            <nav class="nav nav-pills nav-fill menu">
+                <a class="nav-item nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'organizer:home' %}">Home</a>
+                <a class="nav-item nav-link {% if request.path == '/tasks/' %}active{% endif %}" href="{% url 'organizer:tasks' %}">Tasks&Homework</a>
+                <a class="nav-item nav-link {% if request.path == '/go/' %}active{% endif %}" href="{% url 'organizer:go' %}">GO Game</a>
+            </nav>
             {% block content %}
             {% endblock %}
         {% else %}

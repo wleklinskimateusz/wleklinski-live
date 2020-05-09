@@ -7,5 +7,5 @@ app_name = 'organizer'
 urlpatterns = [
     path('', views.home, name='home'),
     path('tasks/', views.tasks, name='tasks'),
-    path('planner/', views.planner, name='planner')
+    path('go/', views.go_game, name='go')
 ]

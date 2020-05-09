@@ -55,7 +55,7 @@ def tasks(request):
     return render(request, template_name, context)
 
 
-def planner(request):
-    template_name = 'planner.html'
+def go_game(request):
+    template_name = 'gamesGO.html'
     context = get_tasks_to_context({}, request)
     return render(request, template_name, context)

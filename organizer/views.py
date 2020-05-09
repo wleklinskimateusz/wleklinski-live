@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.http import HttpResponseRedirect
-from .forms import TaskForm
-from .models import Task
+from .forms import *
+from .models import *
 # Create your views here.
 
 
@@ -57,5 +57,53 @@ def tasks(request):
 
 def go_game(request):
     template_name = 'gamesGO.html'
-    context = get_tasks_to_context({}, request)
+    context = {
+        'player': GoPlayer.objects.filter(owner=request.user.id),
+        'games': GoGame.objects.all()
+    }
+    context = get_tasks_to_context(context, request)
+    return render(request, template_name, context)
+
+
+def new_player(request):
+    template_name = 'forms/new_player.html'
+    if request.method == 'POST':
+        form = GoPlayerForm(request.POST)
+        if form.is_valid():
+            Player = GoPlayer()
+            Player.owner = request.user
+            Player.nick = form.cleaned_data['nick']
+            Player.save()
+            return HttpResponseRedirect('/go')
+    else:
+        form = GoPlayerForm()
+    context = {
+        'form': form,
+    }
+    context = get_tasks_to_context(context, request)
+
+    return render(request, template_name, context)
+
+
+def new_game(request):
+    template_name = 'forms/new_game.html'
+    if request.method == 'POST':
+        form = GoGameForm(request.POST)
+        if form.is_valid():
+            game = GoGame()
+            game.white = form.cleaned_data['white']
+            game.black = form.cleaned_data['black']
+            game.black_score = form.cleaned_data['black_score']
+            game.white_score = form.cleaned_data['white_score']
+            game.sum_up()
+            game.save()
+
+            return HttpResponseRedirect('/go')
+    else:
+        form = GoGameForm()
+    context = {
+        'form': form,
+    }
+    context = get_tasks_to_context(context, request)
+
     return render(request, template_name, context)

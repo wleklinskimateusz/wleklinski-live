@@ -3,7 +3,7 @@
 {% load static %}
 {% block title %}Tasks{% endblock %}
 {% block content %}
-    <div id="task_add">
+    <div class="my_form">
     <form action="" method="POST">
             {% csrf_token %}
             {{ form|crispy }}

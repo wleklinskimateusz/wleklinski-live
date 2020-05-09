@@ -41,6 +41,12 @@ class GoPlayer(models.Model):
     def __str__(self):
         return self.nick
 
+    def reset(self):
+        self.total_score = 0
+        self.wins = 0
+        self.losses = 0
+        self.draws = 0
+
 
 class GoGame(models.Model):
     """

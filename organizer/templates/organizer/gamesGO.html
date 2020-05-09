@@ -1,7 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Tasks{% endblock %}
 {% block content %}
-
-
+   {% if not player %}
+    <a href="{% url 'organizer:new_player' %}" class="btn btn-primary btn-lg active gobutton" role="button" aria-pressed="true">Create a Player</a>
+   {% else %}
+       <a href="{% url 'organizer:new_game' %}" class="btn btn-primary btn-lg active gobutton" role="button" aria-pressed="true">Create a Game</a>
+        <div class="games">
+            <ul class="list-group">
+               {% for game in games %}
+                   {% if game.white.owner == user or game.black.owner == user %}
+                <li class="list-group-item">{{ game }}</li>
+                   {% endif %}
+               {% endfor %}
+            </ul>
+        </div>
+   {% endif %}
 {% endblock %}

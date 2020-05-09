@@ -17,6 +17,11 @@
     <main>
         {% if user.is_authenticated or request.path == '/accounts/login/'%}
             {% if request.path != '/accounts/login/' %}
+                <nav class="nav nav-pills nav-fill menu">
+                    <a class="nav-item nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'organizer:home' %}">Home</a>
+                    <a class="nav-item nav-link {% if request.path == '/tasks/' %}active{% endif %}" href="{% url 'organizer:tasks' %}">Tasks&Homework</a>
+                    <a class="nav-item nav-link {% if request.path == '/go/' %}active{% endif %}" href="{% url 'organizer:go' %}">GO Game</a>
+                </nav>
                 <div id="user_panel" style="position: fixed; width: 18rem;" class="card">
                     <div class="card-body">
                         <h5 class="card-title">Hello {{ user.first_name }}</h5>
@@ -36,11 +41,6 @@
                     </div>
                 </div>
             {% endif %}
-            <nav class="nav nav-pills nav-fill menu">
-                <a class="nav-item nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'organizer:home' %}">Home</a>
-                <a class="nav-item nav-link {% if request.path == '/tasks/' %}active{% endif %}" href="{% url 'organizer:tasks' %}">Tasks&Homework</a>
-                <a class="nav-item nav-link {% if request.path == '/go/' %}active{% endif %}" href="{% url 'organizer:go' %}">GO Game</a>
-            </nav>
             {% block content %}
             {% endblock %}
         {% else %}

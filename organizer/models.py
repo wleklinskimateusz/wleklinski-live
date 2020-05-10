@@ -38,6 +38,7 @@ class GoPlayer(models.Model):
     losses = models.IntegerField(default=0)
     draws = models.IntegerField(default=0)
 
+
     def __str__(self):
         return self.nick
 
@@ -57,6 +58,10 @@ class GoPlayer(models.Model):
         else:
             self.losses += 1
 
+    def ranking(self):
+        players = list(GoPlayer.objects.all().order_by('total_score'))
+        players.reverse()
+        return players.index(self) + 1
 
 
 class GoGame(models.Model):
@@ -106,5 +111,5 @@ class GoGame(models.Model):
         white.save()
 
         black = GoPlayer.objects.get(id=self.black.id)
-        black.add_stats(self.white_score, self.white == self.winner(), self.is_draw())
+        black.add_stats(self.black_score, self.black == self.winner(), self.is_draw())
         black.save()

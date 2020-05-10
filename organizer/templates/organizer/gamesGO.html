@@ -11,10 +11,29 @@
             <ul class="list-group">
                {% for game in games %}
                    {% if game.white.owner == user or game.black.owner == user %}
-                <li class="list-group-item">{{ game }}</li>
+                    <a href="{% url 'organizer:game' game.id %}">
+                       <li class="list-group-item">
+                            Game with
+                            {% if game.white.owner == user %}
+                                {{ game.black }}
+                            {% else %}
+                                {{ game.white }}
+                            {% endif %}
+                        </li>
+                    </a>
                    {% endif %}
                {% endfor %}
             </ul>
         </div>
+       <div class="ranking">
+        <ul class="list-group">
+            {% for player in players %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ player.ranking }}. {{ player }}
+                <span class="badge badge-primary badge-pill">{{ player.total_score }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+       </div>
    {% endif %}
 {% endblock %}

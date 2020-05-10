@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.http import HttpResponseRedirect
 from .forms import *
 from .models import *
+from django.urls import reverse_lazy, reverse
 # Create your views here.
 
 
@@ -74,7 +75,8 @@ def go_game(request):
 
     template_name = 'gamesGO.html'
     context = {
-        'games': GoGame.objects.all()
+        'games': GoGame.objects.all(),
+        'players': reversed(list(GoPlayer.objects.all().order_by('total_score')))
     }
     context = get_player_to_context(context, request)
 
@@ -132,3 +134,38 @@ def new_game(request):
     context = get_player_to_context(context, request)
 
     return render(request, template_name, context)
+
+
+def game(request, game_id):
+    my_game = get_object_or_404(GoGame, pk=game_id)
+    if my_game.white.owner == request.user:
+        player = my_game.white
+        player_score = my_game.white_score
+
+        opponent = my_game.black
+        opponent_score = my_game.black_score
+    else:
+        player = my_game.black
+        player_score = my_game.black_score
+
+        opponent = my_game.white
+        opponent_score = my_game.white_score
+    template_name = 'game.html'
+    context = {
+        'opponent': opponent,
+        'player': player,
+        'player_score': player_score,
+        'opponent_score': opponent_score,
+        'win': my_game.winner().owner == request.user,
+        'id': my_game.id
+    }
+    return render(request, template_name, context)
+
+
+class GameDeleteView(generic.DeleteView):
+    model = GoGame
+    template_name = 'forms/delete.html'
+    context_object_name = 'game'
+    success_url = reverse_lazy('organizer:go')
+
+

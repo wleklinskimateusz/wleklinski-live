@@ -74,3 +74,31 @@ mark {
     left: 40%;
     top: 30%;
 }
+
+.won {
+    background-color: #00cc00;
+}
+
+.lost {
+    background-color: #9e0505;
+}
+
+.game_detail {
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    width: 18rem;
+}
+
+.delete {
+    position: absolute;
+    top: 40%;
+    left: 30%;
+}
+
+.ranking {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    width: 18rem;
+}

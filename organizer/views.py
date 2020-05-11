@@ -7,19 +7,12 @@ from django.urls import reverse_lazy, reverse
 # Create your views here.
 
 
-def get_tasks_to_context(context, request):
-
-    tasks_todo = Task.objects.filter(owner=request.user, is_done=False)
-    past_due = 0
-    for task in tasks_todo:
-        if task.is_past_due():
-            past_due += 1
-    context['tasks_to_do'] = len(tasks_todo)
-    context['past_due'] = past_due
-    return context
-
-
 def get_player_to_context(context, request):
+    """
+    :param context: takes old context
+    :param request: request from the user
+    :return: return new context with player added
+    """
     player = None
     if GoPlayer.objects.filter(owner=request.user):
         player = GoPlayer.objects.get(owner=request.user)
@@ -28,6 +21,11 @@ def get_player_to_context(context, request):
 
 
 def home(request):
+    """
+    Home Page View
+    :param request:
+    :return: renders a HTML page
+    """
     if not request.user.is_authenticated:
         return redirect('accounts/login')
 
@@ -39,6 +37,11 @@ def home(request):
 
 
 def tasks(request):
+    """
+    Tasks Page View
+    :param request:
+    :return: renders a page
+    """
 
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
@@ -69,6 +72,11 @@ def tasks(request):
 
 
 def go_games(request):
+    """
+    Go Games General View
+    :param request:
+    :return: renders a page
+    """
 
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
@@ -84,6 +92,11 @@ def go_games(request):
 
 
 def new_player(request):
+    """
+    a Form to create a new player
+    :param request:
+    :return: renders a form
+    """
 
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
@@ -108,6 +121,11 @@ def new_player(request):
 
 
 def new_game(request):
+    """
+    A Form to add new game
+    :param request:
+    :return: renders a form
+    """
 
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
@@ -137,6 +155,12 @@ def new_game(request):
 
 
 def go_game(request, game_id):
+    """
+    Displays detailed view of a particular game
+    :param request:
+    :param game_id: particular game id
+    :return: renders a page
+    """
     my_game = get_object_or_404(GoGame, pk=game_id)
     if my_game.white.owner == request.user:
         player = my_game.white
@@ -163,6 +187,12 @@ def go_game(request, game_id):
 
 
 def go_player(request, player_id):
+    """
+    Displays detailed view of a player
+    :param request:
+    :param player_id:
+    :return: renders a page
+    """
     player = get_object_or_404(GoPlayer, pk=player_id)
     template_name = 'go/player.html'
     played_with_me = 0
@@ -177,6 +207,9 @@ def go_player(request, player_id):
 
 
 class GameDeleteView(generic.DeleteView):
+    """
+    class for deleting GoGame Object
+    """
     model = GoGame
     template_name = 'forms/delete.html'
     context_object_name = 'game'

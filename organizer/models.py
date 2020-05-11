@@ -74,9 +74,17 @@ class GoGame(models.Model):
     date = models.DateField(default=localtime(now()).date())
 
     def __str__(self):
+        """
+        It's defined here what should be displayed when mentioning the object
+        :return: str
+        """
         return f"{self.black} vs {self.white}, {self.game_time()}"
 
     def game_time(self):
+        """
+        time of a game with relation with today
+        :return: str
+        """
         if self.date == localtime(now()).date():
             return 'today'
         elif self.date == (localtime(now()) + timedelta(days=-1)).date():
@@ -99,6 +107,10 @@ class GoGame(models.Model):
             return self.white
 
     def is_draw(self):
+        """
+        Checks if is draw (if even possible)
+        :return: bool
+        """
         if self.black_score == self.white_score:
             return True
         else:

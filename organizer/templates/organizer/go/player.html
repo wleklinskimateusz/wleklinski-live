@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ player.nick }}{% endblock %}
+{% block content %}
+    <a href="{% url 'organizer:go' %}" class="btn btn-primary back">Go Back</a>
+    <div id="player">
+        <h2>{{ player.nick }}</h2>
+        <ul class="list-group">
+            <li class="list-group-item">
+                Ranking: {{ player.ranking }}
+            </li>
+            <li class="list-group-item">
+                Total Score: {{ player.total_score }}
+            </li>
+            <li class="list-group-item">
+                Wins: {{ player.wins }}
+            </li>
+            <li class="list-group-item">
+                Losses: {{ player.losses }}
+            </li>
+            {% if player.owner != user %}
+            <li class="list-group-item">
+                Played with you: {{ played_with_me }}
+            </li>
+            {% endif %}
+        </ul>
+
+    </div>
+{% endblock %}

@@ -102,3 +102,15 @@ mark {
     left: 40%;
     width: 18rem;
 }
+
+#player {
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    width: 18rem;
+}
+.back {
+    position: absolute;
+    top: 40%;
+    left: 30%;
+}

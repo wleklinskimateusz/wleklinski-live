@@ -38,7 +38,6 @@ class GoPlayer(models.Model):
     losses = models.IntegerField(default=0)
     draws = models.IntegerField(default=0)
 
-
     def __str__(self):
         return self.nick
 

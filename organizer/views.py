@@ -68,12 +68,12 @@ def tasks(request):
     return render(request, template_name, context)
 
 
-def go_game(request):
+def go_games(request):
 
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
 
-    template_name = 'gamesGO.html'
+    template_name = 'go/gamesGO.html'
     context = {
         'games': GoGame.objects.all(),
         'players': reversed(list(GoPlayer.objects.all().order_by('total_score')))
@@ -136,7 +136,7 @@ def new_game(request):
     return render(request, template_name, context)
 
 
-def game(request, game_id):
+def go_game(request, game_id):
     my_game = get_object_or_404(GoGame, pk=game_id)
     if my_game.white.owner == request.user:
         player = my_game.white
@@ -150,7 +150,7 @@ def game(request, game_id):
 
         opponent = my_game.white
         opponent_score = my_game.white_score
-    template_name = 'game.html'
+    template_name = 'go/game.html'
     context = {
         'opponent': opponent,
         'player': player,
@@ -160,6 +160,21 @@ def game(request, game_id):
         'id': my_game.id
     }
     return render(request, template_name, context)
+
+
+def go_player(request, player_id):
+    player = get_object_or_404(GoPlayer, pk=player_id)
+    template_name = 'go/player.html'
+    played_with_me = 0
+    for game in GoGame.objects.all():
+        if (game.white == player and game.black.owner == request.user) or (game.black == player and game.white.owner == request.user):
+            played_with_me += 1
+    context = {
+        'player': player,
+        'played_with me': played_with_me
+    }
+    return render(request, template_name, context)
+
 
 
 class GameDeleteView(generic.DeleteView):

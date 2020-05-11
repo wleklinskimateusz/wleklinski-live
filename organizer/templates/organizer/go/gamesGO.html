@@ -15,10 +15,11 @@
                        <li class="list-group-item">
                             Game with
                             {% if game.white.owner == user %}
-                                {{ game.black }}
+                                {{ game.black }},
                             {% else %}
-                                {{ game.white }}
+                                {{ game.white }},
                             {% endif %}
+                            {{ game.game_time }}
                         </li>
                     </a>
                    {% endif %}

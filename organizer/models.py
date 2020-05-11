@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.timezone import now
+from django.utils.timezone import now, localtime
 
 
 # Create your models here.
@@ -71,18 +71,18 @@ class GoGame(models.Model):
     white = models.ForeignKey(GoPlayer, on_delete=models.CASCADE, related_name='player2')
     black_score = models.FloatField()
     white_score = models.FloatField()
-    date = models.DateField(default=now().date())
+    date = models.DateField(default=localtime(now()).date())
 
     def __str__(self):
         return f"{self.black} vs {self.white}, {self.game_time()}"
 
     def game_time(self):
-        if self.date == now().date():
+        if self.date == localtime(now()).date():
             return 'today'
-        elif self.date == (now() + timedelta(days=-1)).date():
+        elif self.date == (localtime(now()) + timedelta(days=-1)).date():
             return 'yesterday'
-        elif self.date > (now() + timedelta(days=-7)).date():
-            return f"{now().date() - self.date} days ago"
+        elif self.date > (localtime(now()) + timedelta(days=-7)).date():
+            return f"{localtime(now()).date() - self.date} days ago"
         else:
             return str(self.date)
 

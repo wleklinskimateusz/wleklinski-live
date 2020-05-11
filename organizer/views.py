@@ -169,12 +169,12 @@ def go_player(request, player_id):
     for game in GoGame.objects.all():
         if (game.white == player and game.black.owner == request.user) or (game.black == player and game.white.owner == request.user):
             played_with_me += 1
+            print(played_with_me)
     context = {
         'player': player,
-        'played_with me': played_with_me
+        'played_with_me': played_with_me
     }
     return render(request, template_name, context)
-
 
 
 class GameDeleteView(generic.DeleteView):

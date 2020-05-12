@@ -60,7 +60,7 @@ class GoPlayer(models.Model):
             self.ranking -= diff_points
 
     def place(self):
-        players = list(GoPlayer.objects.all().order_by('total_score'))
+        players = list(GoPlayer.objects.all().order_by('ranking'))
         players.reverse()
         return players.index(self) + 1
 

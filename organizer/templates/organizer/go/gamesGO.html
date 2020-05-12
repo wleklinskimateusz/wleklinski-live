@@ -31,8 +31,8 @@
             {% for player in players %}
             <a href="{% url 'organizer:player' player.id %}">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ player.ranking }}. {{ player }}
-                    <span class="badge badge-primary badge-pill">{{ player.total_score }}</span>
+                    {{ player.place }}. {{ player }}
+                    <span class="badge badge-primary badge-pill">{{ player.ranking }}</span>
                 </li>
             </a>
             {% endfor %}

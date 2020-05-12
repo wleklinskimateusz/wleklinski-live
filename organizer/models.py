@@ -37,6 +37,7 @@ class GoPlayer(models.Model):
     wins = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)
     draws = models.IntegerField(default=0)
+    ranking = models.FloatField(default=0)
 
     def __str__(self):
         return self.nick
@@ -47,17 +48,18 @@ class GoPlayer(models.Model):
         self.losses = 0
         self.draws = 0
 
-    def add_stats(self, points, win, draw):
+    def add_stats(self, points, win, draw, diff_points):
         self.total_score += points
         if win:
-            if draw:
-                self.draws += 1
-            else:
-                self.wins += 1
+            self.wins += 1
+            self.ranking += diff_points
+        elif draw:
+            self.draws += 1
         else:
             self.losses += 1
+            self.ranking -= diff_points
 
-    def ranking(self):
+    def place(self):
         players = list(GoPlayer.objects.all().order_by('total_score'))
         players.reverse()
         return players.index(self) + 1
@@ -83,7 +85,7 @@ class GoGame(models.Model):
     def game_time(self):
         """
         time of a game with relation with today
-        :return: str
+        :return: datetime.date
         """
         if self.date == localtime(now()).date():
             return 'today'
@@ -92,7 +94,7 @@ class GoGame(models.Model):
         elif self.date > (localtime(now()) + timedelta(days=-7)).date():
             return f"{localtime(now()).date() - self.date} days ago"
         else:
-            return str(self.date)
+            return self.date
 
     def winner(self):
         if self.black_score > self.white_score:
@@ -118,9 +120,9 @@ class GoGame(models.Model):
 
     def sum_up(self):
         white = GoPlayer.objects.get(id=self.white.id)
-        white.add_stats(self.white_score, self.white == self.winner(), self.is_draw())
+        white.add_stats(self.white_score, self.white == self.winner(), self.is_draw(), abs(self.white_score-self.black_score))
         white.save()
 
         black = GoPlayer.objects.get(id=self.black.id)
-        black.add_stats(self.black_score, self.black == self.winner(), self.is_draw())
+        black.add_stats(self.black_score, self.black == self.winner(), self.is_draw(), abs(self.white_score-self.black_score))
         black.save()

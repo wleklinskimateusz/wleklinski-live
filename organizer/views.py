@@ -84,7 +84,7 @@ def go_games(request):
     template_name = 'go/gamesGO.html'
     context = {
         'games': GoGame.objects.all(),
-        'players': reversed(list(GoPlayer.objects.all().order_by('total_score')))
+        'players': reversed(list(GoPlayer.objects.all().order_by('ranking')))
     }
     context = get_player_to_context(context, request)
 

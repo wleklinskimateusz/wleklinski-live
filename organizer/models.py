@@ -92,7 +92,7 @@ class GoGame(models.Model):
         elif self.date == (localtime(now()) + timedelta(days=-1)).date():
             return 'yesterday'
         elif self.date > (localtime(now()) + timedelta(days=-7)).date():
-            return f"{localtime(now()).date() - self.date} days ago"
+            return f"{(localtime(now()).date() - self.date).days} days ago"
         else:
             return self.date
 

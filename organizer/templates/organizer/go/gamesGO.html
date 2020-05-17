@@ -3,7 +3,7 @@
 
 {% block title %}Game of GO{% endblock %}
 {% block content %}
-   {% if not player %}
+   {% if not Iplayer %}
     <a href="{% url 'organizer:new_player' %}" class="btn btn-primary btn-lg active gobutton" role="button" aria-pressed="true">Create a Player</a>
    {% else %}
        <a href="{% url 'organizer:new_game' %}" class="btn btn-primary btn-lg active gobutton" role="button" aria-pressed="true">Create a Game</a>

@@ -30,12 +30,12 @@
                         {% if user.is_staff %}
                             <a href="/admin" class="btn btn-warning">AdminPage</a>
                         {% endif %}
-                        {% if player %}
+                        {% if Iplayer %}
                             <p><h4>Game of GO</h4></p>
-                                <p>Nick: {{ player.nick }}</p>
-                                <p>Total score: {{ player.total_score }}</p>
-                                <p>Wins: {{ player.wins }}</p>
-                                <p>Losses: {{ player.losses }}</p>
+                                <p>Nick: {{ Iplayer.nick }}</p>
+                                <p>Ranking: {{ Iplayer.ranking }}</p>
+                                <p>Wins: {{ Iplayer.wins }}</p>
+                                <p>Losses: {{ Iplayer.losses }}</p>
                         {% endif %}
                     </div>
                 </div>

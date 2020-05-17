@@ -16,7 +16,7 @@ def get_player_to_context(context, request):
     player = None
     if GoPlayer.objects.filter(owner=request.user):
         player = GoPlayer.objects.get(owner=request.user)
-    context['player'] = player
+    context['Iplayer'] = player
     return context
 
 
@@ -183,6 +183,7 @@ def go_game(request, game_id):
         'win': my_game.winner().owner == request.user,
         'id': my_game.id
     }
+    context = get_player_to_context(context, request)
     return render(request, template_name, context)
 
 
@@ -203,6 +204,7 @@ def go_player(request, player_id):
         'player': player,
         'played_with_me': played_with_me
     }
+    context = get_player_to_context(context, request)
     return render(request, template_name, context)
 
 

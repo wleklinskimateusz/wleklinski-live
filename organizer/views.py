@@ -329,7 +329,6 @@ def trip_edit(request, trip_id):
             form = TripEditFormTrain(request.POST)
         if form.is_valid():
             m_trip.destination = form.cleaned_data['destination']
-            m_trip.person1 = request.user
 
             if m_trip.transport == 'car':
                 m_trip.expected_distance = form.cleaned_data['expected_distance']

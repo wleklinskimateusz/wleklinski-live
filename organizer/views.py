@@ -338,6 +338,7 @@ def trip_edit(request, trip_id):
             m_trip.transport = form.cleaned_data['transport']
             m_trip.duration = form.cleaned_data['duration']
             m_trip.start = form.cleaned_data['start']
+            m_trip.end = m_trip.start + timedelta(days=m_trip.duration)
 
             m_trip.save()
             m_trip.sum_up_cost()

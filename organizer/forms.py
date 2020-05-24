@@ -3,7 +3,7 @@ import django.forms as forms
 
 
 def get_users():
-    output = []
+    output = [('', "---------")]
     for user in User.objects.all():
         output.append((user.id, user.first_name))
     return tuple(output)
@@ -46,6 +46,8 @@ class GoGameForm(forms.Form):
 
 class TripInitForm(forms.Form):
     destination = forms.CharField(max_length=50)
-    people = forms.MultipleChoiceField(choices=get_users())
+    person2 = forms.ChoiceField(choices=get_users(), required=False)
+    person3 = forms.ChoiceField(choices=get_users(), required=False)
+    person4 = forms.ChoiceField(choices=get_users(), required=False)
     transport = forms.ChoiceField(choices=get_transport())
     duration = forms.IntegerField()

@@ -244,12 +244,12 @@ def new_trip(request):
             my_trip = Trip()
             my_trip.destination = form.cleaned_data['destination']
             my_trip.person1 = request.user
-            if len(form.cleaned_data['people']) > 1:
-                my_trip.person2 = User.objects.get(pk=form.cleaned_data['people'][0])
-            if len(form.cleaned_data['people']) > 2:
-                my_trip.person2 = User.objects.get(pk=form.cleaned_data['people'][1])
-            if len(form.cleaned_data['people']) > 3:
-                my_trip.person2 = User.objects.get(pk=form.cleaned_data['people'][2])
+            if form.cleaned_data['person2']:
+                my_trip.person2 = User.objects.get(pk=int(form.cleaned_data['person2']))
+            if form.cleaned_data['person3']:
+                my_trip.person3 = User.objects.get(pk=form.cleaned_data['person3'])
+            if form.cleaned_data['person4']:
+                my_trip.person4 = User.objects.get(pk=form.cleaned_data['person4'])
             my_trip.transport = form.cleaned_data['transport']
             my_trip.duration = form.cleaned_data['duration']
             my_trip.save()

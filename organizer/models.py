@@ -139,10 +139,16 @@ class Trip(models.Model):
     person4 = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='p4')
     start = models.DateField(null=True, blank=True)
     end = models.DateField(null=True, blank=True)
-    duration = models.IntegerField()
+    duration = models.IntegerField(null=True)
     transport = models.CharField(max_length=50, default='car')
+    expected_distance = models.IntegerField(null=True, blank=True)
+    fuel_cost = models.FloatField(null=True, blank=True)
+    fuel_consumption = models.FloatField(null=True, blank=True)
+    plane_ticket_per_person = models.FloatField(null=True, blank=True)
+    train_ticket_per_person = models.FloatField(null=True, blank=True)
     total_cost = models.FloatField(default=0, blank=True)
     cost_per_person = models.FloatField(default=0, blank=True)
+
 
     def __str__(self):
         output = f"{self.destination}"
@@ -172,16 +178,25 @@ class Trip(models.Model):
         return lst
 
     def sum_up_cost(self):
-        my_trip = Trip.objects.get(self.id)
+        my_trip = Trip.objects.get(pk=self.id)
         my_trip.total_cost = 0
         my_trip.cost_per_person = 0
         costs = TripCost.objects.filter(trip=my_trip)
         for cost in costs:
-            my_trip.total_cost += cost.cost
-            if cost.split:
-                my_trip.cost_per_person += cost.cost // len(my_trip.members())
+            if cost.one_person_cost:
+                my_trip.total_cost += cost.cost * len(my_trip.members())
             else:
                 my_trip.cost_per_person += cost.cost
+        if my_trip.transport == "car" and my_trip.fuel_consumption and my_trip.expected_distance:
+            fuel = my_trip.fuel_consumption * my_trip.expected_distance / 100
+            fuel_cost = fuel * my_trip.fuel_cost
+            my_trip.total_cost += fuel_cost
+        if my_trip.transport == "plane" and my_trip.plane_ticket_per_person:
+            my_trip.total_cost += my_trip.plane_ticket_per_person * len(my_trip.members())
+        if my_trip.transport == "train" and my_trip.train_ticket_per_person:
+            my_trip.total_cost += my_trip.train_ticket_per_person * len(my_trip.members())
+
+        my_trip.cost_per_person = my_trip.total_cost / len(my_trip.members())
         my_trip.save()
 
 
@@ -189,5 +204,5 @@ class TripCost(models.Model):
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     description = models.CharField(max_length=100)
     cost = models.FloatField()
-    split = models.BooleanField(default=False)
+    one_person_cost = models.BooleanField(default=False)
 

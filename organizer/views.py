@@ -272,3 +272,98 @@ def trip(request, trip_id):
     }
     context = get_player_to_context(context, request)
     return render(request, template_name, context)
+
+
+def trip_init(m_trip):
+    output = {'destination': m_trip.destination}
+    if m_trip.person2:
+        output['person2'] = m_trip.person2
+    if m_trip.person3:
+        output['person3'] = m_trip.person3
+    if m_trip.person4:
+        output['person4'] = m_trip.person4
+    if m_trip.start:
+        output['start'] = m_trip.start
+    output['duration'] = m_trip.duration
+    if m_trip.transport:
+        output['transport'] = m_trip.transport
+    if m_trip.expected_distance:
+        output['expected_distance'] = m_trip.expected_distance
+    if m_trip.fuel_cost:
+        output['fuel_cost'] = m_trip.fuel_cost
+    if m_trip.plane_ticket_per_person:
+        output['plane_ticket_per_person'] = m_trip.plane_ticket_per_person
+    if m_trip.train_ticket_per_person:
+        output['train_ticket_per_person'] = m_trip.train_ticket_per_person
+    if m_trip.fuel_consumption:
+        output['fuel_consumption'] = m_trip.fuel_consumption
+    return output
+
+
+def trip_edit(request, trip_id):
+    m_trip = get_object_or_404(Trip, pk=trip_id)
+    success_url = reverse('organizer:trip_display', kwargs={"trip_id": trip_id})
+    template_name = 'trips/edit.html'
+    if request.method == 'POST':
+        if m_trip.transport == "car":
+            form = TripEditFormCar(request.POST)
+        elif m_trip.transport == 'bike':
+            form = TripEditFormBike(request.POST)
+        elif m_trip.transport == 'plane':
+            form = TripEditFormPlane(request.POST)
+        else:
+            form = TripEditFormTrain(request.POST)
+        if form.is_valid():
+            m_trip.destination = form.cleaned_data['destination']
+            m_trip.person1 = request.user
+
+            if m_trip.transport == 'car':
+                m_trip.expected_distance = form.cleaned_data['expected_distance']
+                m_trip.fuel_cost = form.cleaned_data['fuel_cost']
+                m_trip.fuel_consumption = form.cleaned_data['fuel_consumption']
+            elif m_trip.transport == 'bike':
+                m_trip.expected_distance = form.cleaned_data['expected_distance']
+            elif m_trip.transport == 'plane':
+                m_trip.plane_ticket_per_person = form.cleaned_data['plane_ticket_per_person']
+            else:
+                m_trip.train_ticket_per_person = form.cleaned_data['train_ticket_per_person']
+
+            if form.cleaned_data['person2']:
+                m_trip.person2 = User.objects.get(pk=int(form.cleaned_data['person2']))
+            if form.cleaned_data['person3']:
+                m_trip.person3 = User.objects.get(pk=form.cleaned_data['person3'])
+            if form.cleaned_data['person4']:
+                m_trip.person4 = User.objects.get(pk=form.cleaned_data['person4'])
+            m_trip.transport = form.cleaned_data['transport']
+            m_trip.duration = form.cleaned_data['duration']
+            m_trip.start = form.cleaned_data['start']
+
+            m_trip.save()
+            m_trip.sum_up_cost()
+
+            return HttpResponseRedirect(success_url)
+    else:
+        if m_trip.transport == "car":
+            form = TripEditFormCar(initial=trip_init(m_trip))
+        elif m_trip.transport == 'bike':
+            form = TripEditFormBike(initial=trip_init(m_trip))
+        elif m_trip.transport == 'plane':
+            form = TripEditFormPlane(initial=trip_init(m_trip))
+        else:
+            form = TripEditFormTrain(initial=trip_init(m_trip))
+    context = {
+        'trip': m_trip,
+        'form': form,
+    }
+    context = get_player_to_context(context, request)
+    return render(request, template_name, context)
+
+
+def trip_finances(request, trip_id):
+    m_trip = get_object_or_404(Trip, pk=trip_id)
+    template_name = 'trips/finances.html'
+    context = {
+        'trip': m_trip
+    }
+    context = get_player_to_context(context, request)
+    return render(request, template_name, context)

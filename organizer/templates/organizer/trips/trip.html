@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Trips{% endblock %}
+{% block title %}{{ trip }}{% endblock %}
 {% block content %}
 <a href="{% url 'organizer:trips' %}" class="btn btn-primary back">Go Back</a>
+<a href="{% url 'organizer:trip_edit' trip.id %}" class="btn btn-primary edit">Edit</a>
     <div id="player">
         <h2>{{ trip.destination }}</h2>
         <p>

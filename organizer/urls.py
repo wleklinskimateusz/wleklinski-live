@@ -15,5 +15,7 @@ urlpatterns = [
     path('go/players/<int:player_id>', views.go_player, name='player'),
     path('trips/', views.trips, name='trips'),
     path('trips/create', views.new_trip, name='new_trip'),
-    path('trips/<int:trip_id>/display', views.trip, name='trip'),
+    path('trips/<int:trip_id>/display', views.trip, name='trip_display'),
+    path('trips/<int:trip_id>/edit', views.trip_edit, name='trip_edit'),
+    path('trips/<int:trip_id>/finances', views.trip_finances, name='trip_finances'),
 ]

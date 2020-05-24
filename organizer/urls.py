@@ -13,4 +13,6 @@ urlpatterns = [
     path('go/games/<int:game_id>', views.go_game, name='game'),
     path('go/games/<int:pk>/delete', views.GameDeleteView.as_view(), name='delete'),
     path('go/players/<int:player_id>', views.go_player, name='player'),
+    path('trips/', views.trips, name='trips'),
+    path('trips/create', views.new_trip, name='new_trip'),
 ]

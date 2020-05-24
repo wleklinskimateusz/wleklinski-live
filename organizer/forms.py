@@ -2,6 +2,21 @@ from .models import *
 import django.forms as forms
 
 
+def get_users():
+    output = []
+    for user in User.objects.all():
+        output.append((user.id, user.first_name))
+    return tuple(output)
+
+def get_transport():
+    return (
+        ('plane', 'plane'),
+        ('car', 'car'),
+        ('train', 'train'),
+        ('bike', 'bike')
+    )
+
+
 class DateInput(forms.DateInput):
     input_type = 'date'
 
@@ -27,3 +42,10 @@ class GoGameForm(forms.Form):
     black_score = forms.FloatField()
     white_score = forms.FloatField()
     date = models.DateField(default=now().date())
+
+
+class TripInitForm(forms.Form):
+    destination = forms.CharField(max_length=50)
+    people = forms.MultipleChoiceField(choices=get_users())
+    transport = forms.ChoiceField(choices=get_transport())
+    duration = forms.IntegerField()

@@ -218,3 +218,51 @@ class GameDeleteView(generic.DeleteView):
     success_url = reverse_lazy('organizer:go')
 
 
+def trips(request):
+    """
+    Trips General View
+    :param request:
+    :return: renders a page
+    """
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+    template_name = 'trips/trips.html'
+    context = {
+        'trips': Trip.objects.all()
+    }
+    context = get_player_to_context(context, request)
+
+    return render(request, template_name, context)
+
+
+def new_trip(request):
+    template_name = 'forms/new_trip.html'
+    success_url = reverse_lazy('organizer:trips')
+    if request.method == 'POST':
+        form = TripInitForm(request.POST)
+        if form.is_valid():
+            my_trip = Trip()
+            my_trip.destination = form.cleaned_data['destination']
+            my_trip.person1 = request.user
+            if len(form.cleaned_data['people']) > 1:
+                my_trip.person2 = User.objects.get(pk=form.cleaned_data['people'][0])
+            if len(form.cleaned_data['people']) > 2:
+                my_trip.person2 = User.objects.get(pk=form.cleaned_data['people'][1])
+            if len(form.cleaned_data['people']) > 3:
+                my_trip.person2 = User.objects.get(pk=form.cleaned_data['people'][2])
+            my_trip.transport = form.cleaned_data['transport']
+            my_trip.duration = form.cleaned_data['duration']
+            my_trip.save()
+
+            return HttpResponseRedirect(success_url)
+    else:
+        form = TripInitForm()
+    context = {
+        'form': form,
+    }
+    context = get_player_to_context(context, request)
+    return render(request, template_name, context)
+
+
+
+

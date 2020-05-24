@@ -57,7 +57,7 @@ class GoPlayer(models.Model):
             self.draws += 1
         else:
             self.losses += 1
-            self.ranking -= diff_points
+            self.ranking -= diff_points / 2
 
     def place(self):
         players = list(GoPlayer.objects.all().order_by('ranking'))
@@ -126,3 +126,68 @@ class GoGame(models.Model):
         black = GoPlayer.objects.get(id=self.black.id)
         black.add_stats(self.black_score, self.black == self.winner(), self.is_draw(), abs(self.white_score-self.black_score))
         black.save()
+
+
+class Trip(models.Model):
+    """
+    An instance for a single trip
+    """
+    destination = models.CharField(max_length=50)
+    person1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
+    person2 = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='p2')
+    person3 = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='p3')
+    person4 = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='p4')
+    start = models.DateField(null=True, blank=True)
+    end = models.DateField(null=True, blank=True)
+    duration = models.IntegerField(null=True, blank=True)
+    transport = models.CharField(max_length=50, default='car')
+    total_cost = models.FloatField(null=True, blank=True)
+    cost_per_person = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        output = f"{self.destination}"
+        people = self.members()
+        if len(people) > 1:
+            output += " with"
+            for person in people:
+                if not person == self.person1:
+                    output += f" {person.first_name}  and"
+            if output[-3:] == "and":
+                output = output[:-3]
+            if output[-4:] == "with":
+                output = output[:-4]
+        return output
+
+    def members(self):
+        """
+        :return: a list of members (user objects)
+        """
+        lst = [self.person1]
+        if self.person2:
+            lst.append(self.person2)
+        if self.person3:
+            lst.append(self.person3)
+        if self.person4:
+            lst.append(self.person4)
+        return lst
+
+    def sum_up_cost(self):
+        my_trip = Trip.objects.get(self.id)
+        my_trip.total_cost = 0
+        my_trip.cost_per_person = 0
+        costs = TripCost.objects.filter(trip=my_trip)
+        for cost in costs:
+            my_trip.total_cost += cost.cost
+            if cost.split:
+                my_trip.cost_per_person += cost.cost // len(my_trip.members())
+            else:
+                my_trip.cost_per_person += cost.cost
+        my_trip.save()
+
+
+class TripCost(models.Model):
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    description = models.CharField(max_length=100)
+    cost = models.FloatField()
+    split = models.BooleanField(default=False)
+

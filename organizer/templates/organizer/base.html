@@ -21,6 +21,7 @@
                     <a class="nav-item nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'organizer:home' %}">Home</a>
                     <a class="nav-item nav-link {% if request.path == '/tasks/' %}active{% endif %}" href="{% url 'organizer:tasks' %}">Tasks&Homework</a>
                     <a class="nav-item nav-link {% if request.path == '/go/' %}active{% endif %}" href="{% url 'organizer:go' %}">GO Game</a>
+                    <a class="nav-item nav-link {% if request.path == '/trips/' %}active{% endif %}" href="{% url 'organizer:trips' %}">Trips</a>
                 </nav>
                 <div id="user_panel" style="position: fixed; width: 18rem;" class="card">
                     <div class="card-body">

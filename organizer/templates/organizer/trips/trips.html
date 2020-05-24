@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Trips{% endblock %}
+{% block content %}
+
+<a href="{% url 'organizer:new_trip' %}" class="btn btn-primary btn-lg active gobutton" role="button" aria-pressed="true">Plan a Trip</a>
+<div class="games">
+            <ul class="list-group">
+               {% for trip in trips %}
+                   {% if user in trip.members %}
+                       <li class="list-group-item">
+                            {{ trip }}
+                        </li>
+                   {% endif %}
+               {% endfor %}
+            </ul>
+        </div>
+{% endblock %}

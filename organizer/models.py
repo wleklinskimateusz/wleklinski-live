@@ -186,7 +186,7 @@ class Trip(models.Model):
             if cost.one_person_cost:
                 my_trip.total_cost += cost.cost * len(my_trip.members())
             else:
-                my_trip.cost_per_person += cost.cost
+                my_trip.total_cost += cost.cost
         if my_trip.transport == "car" and my_trip.fuel_consumption and my_trip.expected_distance:
             fuel = my_trip.fuel_consumption * my_trip.expected_distance / 100
             fuel_cost = fuel * my_trip.fuel_cost
@@ -205,4 +205,7 @@ class TripCost(models.Model):
     description = models.CharField(max_length=100)
     cost = models.FloatField()
     one_person_cost = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.description} -> {self.cost}zł"
 

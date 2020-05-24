@@ -101,7 +101,7 @@ def new_player(request):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
 
-    template_name = 'forms/new_player.html'
+    template_name = 'forms/default.html'
     if request.method == 'POST':
         form = GoPlayerForm(request.POST)
         if form.is_valid():
@@ -114,6 +114,7 @@ def new_player(request):
         form = GoPlayerForm()
     context = {
         'form': form,
+        'title': "New Player"
     }
     context = get_player_to_context(context, request)
 
@@ -130,7 +131,7 @@ def new_game(request):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
 
-    template_name = 'forms/new_game.html'
+    template_name = 'forms/default.html'
     if request.method == 'POST':
         form = GoGameForm(request.POST)
         if form.is_valid():
@@ -147,6 +148,7 @@ def new_game(request):
         form = GoGameForm()
     context = {
         'form': form,
+        'title': "New Game"
 
     }
     context = get_player_to_context(context, request)
@@ -236,7 +238,11 @@ def trips(request):
 
 
 def new_trip(request):
-    template_name = 'forms/new_trip.html'
+
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
+    template_name = 'forms/default.html'
     success_url = reverse_lazy('organizer:trips')
     if request.method == 'POST':
         form = TripInitForm(request.POST)
@@ -259,12 +265,17 @@ def new_trip(request):
         form = TripInitForm()
     context = {
         'form': form,
+        'title': 'New Trip'
     }
     context = get_player_to_context(context, request)
     return render(request, template_name, context)
 
 
 def trip(request, trip_id):
+
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
     m_trip = get_object_or_404(Trip, pk=trip_id)
     template_name = 'trips/trip.html'
     context = {
@@ -301,6 +312,9 @@ def trip_init(m_trip):
 
 
 def trip_edit(request, trip_id):
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
     m_trip = get_object_or_404(Trip, pk=trip_id)
     success_url = reverse('organizer:trip_display', kwargs={"trip_id": trip_id})
     template_name = 'trips/edit.html'
@@ -360,10 +374,58 @@ def trip_edit(request, trip_id):
 
 
 def trip_finances(request, trip_id):
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
     m_trip = get_object_or_404(Trip, pk=trip_id)
     template_name = 'trips/finances.html'
     context = {
-        'trip': m_trip
+        'trip': m_trip,
+        'costs': TripCost.objects.filter(trip=m_trip)
     }
+    if m_trip.transport == 'car' and m_trip.fuel_consumption and m_trip.expected_distance:
+        context['car'] = True
+        context['fuel'] = m_trip.fuel_cost * m_trip.fuel_consumption * m_trip.expected_distance / 100
+    elif m_trip.transport == 'train' and m_trip.train_ticket_per_person:
+        context['train'] = True
+        context['ticket'] = m_trip.train_ticket_per_person * len(m_trip.members())
+    elif m_trip.transport == 'plane' and m_trip.plane_ticket_per_person:
+        context['plane'] = True
+        context['ticket'] = m_trip.plane_ticket_per_person * len(m_trip.members())
+
     context = get_player_to_context(context, request)
     return render(request, template_name, context)
+
+
+def new_cost(request, trip_id):
+
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
+    m_trip = get_object_or_404(Trip, pk=trip_id)
+
+    template_name = 'forms/default.html'
+    success_url = reverse('organizer:trip_finances', kwargs={'trip_id': trip_id})
+    if request.method == 'POST':
+        form = TripCostForm(request.POST)
+        if form.is_valid():
+            cost = TripCost()
+            cost.trip = m_trip
+            cost.description = form.cleaned_data['description']
+            cost.cost = form.cleaned_data['cost']
+            cost.one_person_cost = form.cleaned_data['one_person_cost']
+            cost.save()
+            m_trip.save()
+            m_trip.sum_up_cost()
+
+            return HttpResponseRedirect(success_url)
+    else:
+        form = TripCostForm()
+    context = {
+        'title': f"New {m_trip} Cost",
+        'form': form,
+    }
+    context = get_player_to_context(context, request)
+
+    return render(request, template_name, context)
+

@@ -17,6 +17,7 @@
             </ul>
         </p>
         <p>
+            <a href="{% url 'organizer:trip_finances' trip.id %}">
             <h5>Finances:</h5>
             <ul class="list-group">
                 <li class="list-group-item">
@@ -26,6 +27,7 @@
                     Cost per person -> {{ trip.cost_per_person }}zł
                 </li>
             </ul>
+            </a>
         </p>
         {% if trip.start %}
         <p>

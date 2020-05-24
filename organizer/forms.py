@@ -74,3 +74,9 @@ class TripEditFormPlane(TripEditForm):
 
 class TripEditFormTrain(TripEditForm):
     train_ticket_per_person = forms.FloatField(required=False)
+
+
+class TripCostForm(forms.Form):
+    description = forms.CharField(max_length=100)
+    cost = forms.FloatField()
+    one_person_cost = forms.BooleanField(initial=False, required=False)

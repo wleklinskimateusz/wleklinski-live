@@ -7,4 +7,5 @@ admin.site.register(Task)
 admin.site.register(GoPlayer)
 admin.site.register(GoGame)
 admin.site.register(Trip)
+admin.site.register(TripCost)
 

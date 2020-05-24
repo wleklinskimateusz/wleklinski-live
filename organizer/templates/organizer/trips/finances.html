@@ -3,5 +3,26 @@
 {% load crispy_forms_tags %}
 {% block title %}{{ trip }} - Finances{% endblock %}
 {% block content %}
+<a href="{% url 'organizer:trips' %}" class="btn btn-primary back">Go Back</a>
+<a href="{% url 'organizer:new_cost' trip.id %}" class="btn btn-primary btn-lg active gobutton" role="button" aria-pressed="true">Add a Cost</a>
+    <div class="games">
+            <ul class="list-group">
+                    <li class="list-group-item">
+                        {% if car %}
+                            fuel -> {{ fuel }}zł
+                        {% endif %}
+                        {% if train or plane %}
+                            tickets -> {{ ticket }}zł
+                        {% endif %}
+                    </li>
+               {% for cost in costs %}
+                   <li class="list-group-item">
+                    {{ cost }}
+                   </li>
+               {% endfor %}
+            </ul>
+            <h4>Total: {{ trip.total_cost }}zł</h4>
+            <h4>Cost per Person: {{ trip.cost_per_person }}zł</h4>
+    </div>
 
 {% endblock %}

@@ -156,8 +156,7 @@ class Trip(models.Model):
         if len(people) > 1:
             output += " with"
             for person in people:
-                if not person == self.person1:
-                    output += f" {person.first_name}  and"
+                output += f" {person.first_name}  and"
             if output[-3:] == "and":
                 output = output[:-3]
             if output[-4:] == "with":

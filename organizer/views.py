@@ -344,10 +344,16 @@ def trip_edit(request, trip_id):
 
             if form.cleaned_data['person2']:
                 m_trip.person2 = User.objects.get(pk=int(form.cleaned_data['person2']))
+            else:
+                m_trip.person2 = None
             if form.cleaned_data['person3']:
                 m_trip.person3 = User.objects.get(pk=form.cleaned_data['person3'])
+            else:
+                m_trip.person3 = None
             if form.cleaned_data['person4']:
                 m_trip.person4 = User.objects.get(pk=form.cleaned_data['person4'])
+            else:
+                m_trip.person4 = None
             m_trip.transport = form.cleaned_data['transport']
             m_trip.duration = form.cleaned_data['duration']
             m_trip.start = form.cleaned_data['start']

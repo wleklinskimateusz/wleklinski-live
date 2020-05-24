@@ -264,5 +264,11 @@ def new_trip(request):
     return render(request, template_name, context)
 
 
-
-
+def trip(request, trip_id):
+    m_trip = get_object_or_404(Trip, pk=trip_id)
+    template_name = 'trips/trip.html'
+    context = {
+        'trip': m_trip
+    }
+    context = get_player_to_context(context, request)
+    return render(request, template_name, context)

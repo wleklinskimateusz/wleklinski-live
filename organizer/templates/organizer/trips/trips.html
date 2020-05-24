@@ -8,9 +8,11 @@
             <ul class="list-group">
                {% for trip in trips %}
                    {% if user in trip.members %}
+                       <a href="{% url 'organizer:trip' trip.id %}">
                        <li class="list-group-item">
                             {{ trip }}
                         </li>
+                       </a>
                    {% endif %}
                {% endfor %}
             </ul>

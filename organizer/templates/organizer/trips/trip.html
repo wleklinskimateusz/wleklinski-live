@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Trips{% endblock %}
+{% block content %}
+<a href="{% url 'organizer:trips' %}" class="btn btn-primary back">Go Back</a>
+    <div id="player">
+        <h2>{{ trip.destination }}</h2>
+        <p>
+            <h5>Members:</h5>
+            <ul class="list-group">
+                {% for member in trip.members %}
+                <li class="list-group-item">
+                    {{  member.first_name }}
+                </li>
+                {% endfor %}
+            </ul>
+        </p>
+        <p>
+            <h5>Finances:</h5>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Total cost -> {{ trip.total_cost }}zł
+                </li>
+                <li class="list-group-item">
+                    Cost per person -> {{ trip.cost_per_person }}zł
+                </li>
+            </ul>
+        </p>
+        {% if trip.start %}
+        <p>
+            <h5>Time:</h5>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Start: {{ trip.start }}
+                </li>
+                <li class="list-group-item">
+                    End: {{ trip.end }}
+                </li>
+            </ul>
+        </p>
+    {% endif %}
+
+    </div>
+{% endblock %}

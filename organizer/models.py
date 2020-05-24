@@ -139,10 +139,10 @@ class Trip(models.Model):
     person4 = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='p4')
     start = models.DateField(null=True, blank=True)
     end = models.DateField(null=True, blank=True)
-    duration = models.IntegerField(null=True, blank=True)
+    duration = models.IntegerField()
     transport = models.CharField(max_length=50, default='car')
-    total_cost = models.FloatField(null=True, blank=True)
-    cost_per_person = models.FloatField(null=True, blank=True)
+    total_cost = models.FloatField(default=0, blank=True)
+    cost_per_person = models.FloatField(default=0, blank=True)
 
     def __str__(self):
         output = f"{self.destination}"

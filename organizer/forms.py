@@ -54,9 +54,11 @@ class TripInitForm(forms.Form):
     duration = forms.IntegerField(label="duration [days]")
 
 
-class TripEditForm(TripInitForm):
+class TripEditForm(forms.Form):
     start = forms.DateField(required=False, widget=DateInput)
-
+    destination = forms.CharField(max_length=50)
+    transport = forms.ChoiceField(choices=get_transport())
+    duration = forms.IntegerField(label="duration [days]")
 
 class TripEditFormCar(TripEditForm):
     expected_distance = forms.IntegerField(required=False, label="Expected Distance [km]")

@@ -287,12 +287,6 @@ def trip(request, trip_id):
 
 def trip_init(m_trip):
     output = {'destination': m_trip.destination}
-    if m_trip.person2:
-        output['person2'] = m_trip.person2
-    if m_trip.person3:
-        output['person3'] = m_trip.person3
-    if m_trip.person4:
-        output['person4'] = m_trip.person4
     if m_trip.start:
         output['start'] = m_trip.start
     output['duration'] = m_trip.duration
@@ -341,18 +335,6 @@ def trip_edit(request, trip_id):
             else:
                 m_trip.train_ticket_per_person = form.cleaned_data['train_ticket_per_person']
 
-            if form.cleaned_data['person2']:
-                m_trip.person2 = User.objects.get(pk=int(form.cleaned_data['person2']))
-            else:
-                m_trip.person2 = None
-            if form.cleaned_data['person3']:
-                m_trip.person3 = User.objects.get(pk=form.cleaned_data['person3'])
-            else:
-                m_trip.person3 = None
-            if form.cleaned_data['person4']:
-                m_trip.person4 = User.objects.get(pk=form.cleaned_data['person4'])
-            else:
-                m_trip.person4 = None
             m_trip.transport = form.cleaned_data['transport']
             m_trip.duration = form.cleaned_data['duration']
             m_trip.start = form.cleaned_data['start']

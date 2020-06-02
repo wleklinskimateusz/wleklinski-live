@@ -19,4 +19,6 @@ urlpatterns = [
     path('trips/<int:trip_id>/edit', views.trip_edit, name='trip_edit'),
     path('trips/<int:trip_id>/finances', views.trip_finances, name='trip_finances'),
     path('trips/<int:trip_id>/finances/new_cost', views.new_cost, name='new_cost'),
+    path('learning/', views.learning, name='learning'),
+    path('learning/<int:goal_id>/update', views.learning_update, name='learning_update'),
 ]

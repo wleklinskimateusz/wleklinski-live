@@ -208,3 +208,38 @@ class TripCost(models.Model):
     def __str__(self):
         return f"{self.description} -> {self.cost}zł"
 
+
+class Subject(models.Model):
+    name = models.CharField(max_length=20)
+    teacher = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.name} with {self.teacher}"
+
+
+class LearningGoal(models.Model):
+    title = models.CharField(max_length=20)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    goal = models.FloatField(null=True)
+    due = models.DateField(null=True, blank=True)
+    done = models.FloatField(default=0, blank=True)
+
+    def __str__(self):
+        return f"{self.title} from {self.subject}"
+
+    def progress(self):
+        return self.done * 100 / self.goal
+
+    def till_due(self):
+        days = self.due - now().date()
+        if days >= 0:
+            return days
+
+    def left_per_day(self):
+        left = self.goal - self.done
+        if self.till_due():
+            return left / self.till_due()
+        else:
+            return 'Past due'
+

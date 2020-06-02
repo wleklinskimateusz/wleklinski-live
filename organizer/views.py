@@ -417,3 +417,37 @@ def new_cost(request, trip_id):
 
     return render(request, template_name, context)
 
+
+def learning(request):
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+    template_name = 'learning/learning.html'
+    context = {
+        'goals': LearningGoal.objects.all()
+    }
+    context = get_player_to_context(context, request)
+    return render(request, template_name, context)
+
+
+def learning_update(request, goal_id):
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
+    m_goal = get_object_or_404(LearningGoal, pk=goal_id)
+    success_url = reverse_lazy('organizer:learning')
+    template_name = 'learning/update.html'
+    if request.method == 'POST':
+        form = LearningGoalUpdateForm(request.POST)
+        if form.is_valid():
+            m_goal.done = form.cleaned_data['done']
+            m_goal.save()
+            return HttpResponseRedirect(success_url)
+    else:
+        form = LearningGoalUpdateForm()
+
+    context = {
+        'goal': m_goal,
+        'form': form
+    }
+    context = get_player_to_context(context, request)
+    return render(request, template_name, context)

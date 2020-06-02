@@ -451,3 +451,59 @@ def learning_update(request, goal_id):
     }
     context = get_player_to_context(context, request)
     return render(request, template_name, context)
+
+
+def new_subject(request):
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
+    template_name = 'forms/default.html'
+    success_url = reverse_lazy('organizer:learning')
+    if request.method == 'POST':
+        form = NewSubjectForm(request.POST)
+        if form.is_valid():
+            m_subject = Subject()
+            m_subject.name = form.cleaned_data['name']
+            m_subject.teacher = form.cleaned_data['teacher']
+            m_subject.save()
+
+            return HttpResponseRedirect(success_url)
+    else:
+        form = NewSubjectForm()
+    context = {
+        'form': form,
+        'title': 'New Subject',
+    }
+    context = get_player_to_context(context, request)
+    return render(request, template_name, context)
+
+
+def new_goal(request):
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
+    template_name = 'forms/default.html'
+    success_url = reverse_lazy('organizer:learning')
+    if request.method == 'POST':
+        form = LearningGoalNewForm(request.POST)
+        if form.is_valid():
+            m_goal = LearningGoal()
+            m_goal.title = form.cleaned_data['title']
+            m_goal.owner = request.user
+            m_goal.subject = form.cleaned_data['owner']
+            m_goal.goal = form.cleaned_data['goal']
+            m_goal.due = form.cleaned_data['due']
+            m_goal.done = form.cleaned_data['done']
+            m_goal.save()
+
+            return HttpResponseRedirect(success_url)
+    else:
+        form = LearningGoalNewForm()
+    context = {
+        'form': form,
+        'title': 'New Goal',
+    }
+    context = get_player_to_context(context, request)
+    return render(request, template_name, context)
+
+

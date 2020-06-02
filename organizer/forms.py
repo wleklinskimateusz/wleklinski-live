@@ -86,3 +86,16 @@ class TripCostForm(forms.Form):
 
 class LearningGoalUpdateForm(forms.Form):
     done = forms.FloatField()
+
+
+class NewSubjectForm(forms.Form):
+    name = forms.CharField(max_length=20)
+    teacher = forms.CharField(max_length=20)
+
+
+class LearningGoalNewForm(forms.Form):
+    title = forms.CharField(max_length=20)
+    subject = forms.ModelChoiceField(Subject.objects.all())
+    goal = forms.FloatField()
+    done = forms.FloatField(initial=0)
+    due = forms.DateField(required=False, widget=DateInput)

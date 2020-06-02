@@ -2,6 +2,8 @@
 {% load static %}
 {% block title %}Learning{% endblock %}
 {% block content %}
+<a href="{% url 'organizer:new_subject' %}" class="btn btn-primary btn-lg active gobutton" role="button" aria-pressed="true">New Subject</a>
+<a href="{% url 'organizer:new_goal' %}" class="btn btn-primary btn-lg active gobutton" role="button" aria-pressed="true" style="top: 40%">New Goal</a>
 <div class="games">
             <ul class="list-group">
                {% for goal in goals %}

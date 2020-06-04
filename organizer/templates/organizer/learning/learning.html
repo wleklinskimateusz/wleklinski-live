@@ -7,7 +7,7 @@
 <a href="{% url 'organizer:new_goal' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">New Goal</a>
     </div>
 <div class="games">
-            <ul class="list-group">
+            <ul class="list-group goals">
                {% for goal in goals %}
                    {% if user == goal.owner %}
                         <a href="{% url 'organizer:learning_update' goal.id %}">
@@ -19,6 +19,7 @@
                                 {{ goal.progress }}%
                             </div>
                             </div>
+                           <p>Left per day: {{ goal.left_per_day }}</p>
                         </li>
                    {% endif %}
                {% endfor %}

@@ -490,7 +490,7 @@ def new_goal(request):
             m_goal = LearningGoal()
             m_goal.title = form.cleaned_data['title']
             m_goal.owner = request.user
-            m_goal.subject = form.cleaned_data['owner']
+            m_goal.subject = form.cleaned_data['subject']
             m_goal.goal = form.cleaned_data['goal']
             m_goal.due = form.cleaned_data['due']
             m_goal.done = form.cleaned_data['done']

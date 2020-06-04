@@ -233,13 +233,13 @@ class LearningGoal(models.Model):
 
     def till_due(self):
         days = self.due - now().date()
-        if days >= 0:
+        if days >= timedelta(days=0):
             return days
 
     def left_per_day(self):
         left = self.goal - self.done
         if self.till_due():
-            return left / self.till_due()
+            return left / self.till_due().days
         else:
             return 'Past due'
 

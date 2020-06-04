@@ -439,7 +439,7 @@ def learning_update(request, goal_id):
     if request.method == 'POST':
         form = LearningGoalUpdateForm(request.POST)
         if form.is_valid():
-            m_goal.done = form.cleaned_data['done']
+            m_goal.done += form.cleaned_data['done']
             m_goal.save()
             return HttpResponseRedirect(success_url)
     else:

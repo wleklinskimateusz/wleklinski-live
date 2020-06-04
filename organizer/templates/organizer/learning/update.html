@@ -7,7 +7,6 @@
     <p>{{ goal }}</p>
     <p>YOUR PROGRESS: {{ goal.done }}</p>
     <p>TOTAL: {{ goal.goal }}</p>
-    <p>Adding progress:</p>
         <form action="" method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}

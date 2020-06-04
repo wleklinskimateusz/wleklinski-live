@@ -85,7 +85,7 @@ class TripCostForm(forms.Form):
 
 
 class LearningGoalUpdateForm(forms.Form):
-    done = forms.FloatField()
+    done = forms.FloatField(label='Adding Progress:')
 
 
 class NewSubjectForm(forms.Form):

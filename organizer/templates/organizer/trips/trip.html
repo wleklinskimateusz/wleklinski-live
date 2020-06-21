@@ -21,10 +21,10 @@
             <h5>Finances:</h5>
             <ul class="list-group">
                 <li class="list-group-item">
-                    Total cost -> {{ trip.total_cost }}zł
+                    Total cost -> {{ trip.total_cost|floatformat:2 }}zł
                 </li>
                 <li class="list-group-item">
-                    Cost per person -> {{ trip.cost_per_person }}zł
+                    Cost per person -> {{ trip.cost_per_person|floatformat:2 }}zł
                 </li>
             </ul>
             </a>

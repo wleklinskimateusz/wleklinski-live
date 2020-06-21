@@ -336,7 +336,7 @@ def trip_edit(request, trip_id):
                 m_trip.train_ticket_per_person = form.cleaned_data['train_ticket_per_person']
 
             m_trip.transport = form.cleaned_data['transport']
-            m_trip.duration = form.cleaned_data['duration']
+            #m_trip.duration = form.cleaned_data['duration']
             m_trip.start = form.cleaned_data['start']
             m_trip.end = m_trip.start + timedelta(days=m_trip.duration)
 

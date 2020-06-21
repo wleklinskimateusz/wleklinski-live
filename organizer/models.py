@@ -139,7 +139,7 @@ class Trip(models.Model):
     person4 = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='p4')
     start = models.DateField(null=True, blank=True)
     end = models.DateField(null=True, blank=True)
-    duration = models.IntegerField(null=True)
+    #duration = models.IntegerField(null=True)
     transport = models.CharField(max_length=50, default='car')
     expected_distance = models.IntegerField(null=True, blank=True)
     fuel_cost = models.FloatField(null=True, blank=True)

@@ -21,8 +21,8 @@
                    </li>
                {% endfor %}
             </ul>
-            <h4>Total: {{ trip.total_cost }}zł</h4>
-            <h4>Cost per Person: {{ trip.cost_per_person }}zł</h4>
+            <h4>Total: {{ trip.total_cost|floatformat:2 }}zł</h4>
+            <h4>Cost per Person: {{ trip.cost_per_person|floatformat:2 }}zł</h4>
     </div>
 
 {% endblock %}

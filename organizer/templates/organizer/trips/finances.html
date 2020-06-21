@@ -17,7 +17,7 @@
                     </li>
                {% for cost in costs %}
                    <li class="list-group-item">
-                    {{ cost }} {% if cost.one_person_cost %}/os{% endif %}
+                    {{ cost|floatformat:2 }} {% if cost.one_person_cost %}/os{% endif %}
                    </li>
                {% endfor %}
             </ul>

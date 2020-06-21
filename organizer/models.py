@@ -148,6 +148,7 @@ class Trip(models.Model):
     train_ticket_per_person = models.FloatField(null=True, blank=True)
     total_cost = models.FloatField(default=0, blank=True)
     cost_per_person = models.FloatField(default=0, blank=True)
+    maps = models.URLField(null=True, blank=True)
 
 
     def __str__(self):

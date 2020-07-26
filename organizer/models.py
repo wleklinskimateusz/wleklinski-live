@@ -150,7 +150,6 @@ class Trip(models.Model):
     cost_per_person = models.FloatField(default=0, blank=True)
     maps = models.URLField(null=True, blank=True)
 
-
     def __str__(self):
         output = f"{self.destination}"
         people = self.members()

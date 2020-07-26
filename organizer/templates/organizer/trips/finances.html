@@ -17,12 +17,12 @@
                     </li>
                {% for cost in costs %}
                    <li class="list-group-item">
-                    {{ cost }} {% if cost.one_person_cost %}/os{% endif %}
+                    {{ cost|floatformat:2 }} {% if cost.one_person_cost %}/os{% endif %}
                    </li>
                {% endfor %}
             </ul>
-            <h4>Total: {{ trip.total_cost }}zł</h4>
-            <h4>Cost per Person: {{ trip.cost_per_person }}zł</h4>
+            <h4>Total: {{ trip.total_cost|floatformat:2 }}zł</h4>
+            <h4>Cost per Person: {{ trip.cost_per_person|floatformat:2 }}zł</h4>
     </div>
 
 {% endblock %}

@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['wleklinski.herokuapp.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'organizer.apps.OrganizerConfig',
+    'cv.apps.CvConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,6 +62,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'organizer/templates/organizer'),
+            os.path.join(BASE_DIR, 'cv/templates/cv'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

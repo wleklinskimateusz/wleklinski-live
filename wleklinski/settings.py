@@ -82,8 +82,12 @@ WSGI_APPLICATION = 'wleklinski.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "da1cmgvotal9cj",
+        'USER': 'mnvnlmespzykzr',
+        'PASSWORD': '9130682cd72cde398f173b97a7e6b7d8697026fa6a0cb718db06847f58dcfcee',
+        'HOST': 'ec2-54-247-122-209.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
